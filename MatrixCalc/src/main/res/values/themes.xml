@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default theme for the app -->
+    <style name="DefaultTheme"
+        parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    </style>
+</resources>
