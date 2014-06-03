@@ -5,88 +5,80 @@
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
-
     >
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/abc_ab_bottom_solid_light_holo">
 
-    android:baselineAligned="true"
-    android:background="@drawable/abc_ab_bottom_solid_light_holo">
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <TextView
             android:text="Matrix A:"
-            android:textSize="35px"
+            android:textSize="20dp"
             android:padding="10dip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/spinner_operations" />
         <TextView
             android:text="Matrix B:"
-            android:textSize="35px"
+            android:textSize="20dp"
             android:padding="10dip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView7"
+            android:layout_alignEnd="@+id/matrix_B" />
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <EditText
             android:id="@+id/matrix_A"
             android:text="@string/default_values"
-            android:layout_width="375px"
-            android:layout_height="200px"
-            android:layout_margin="4px"
+            android:layout_width="175dp"
+            android:layout_height="100dp"
             android:ems="10"
             android:gravity="top"
-            android:textSize="40px"
-            android:layout_below="@id/matrix_A"/>
+            android:textSize="15dp"
+            android:layout_below="@+id/textView6"
+            android:layout_toRightOf="@+id/matrix_B"
+            android:layout_alignParentStart="false" />
 
         <EditText
             android:id="@+id/matrix_B"
             android:text="@string/default_values2"
-            android:layout_width="375px"
-            android:layout_height="200px"
-            android:layout_margin="4px"
+            android:layout_width="175dp"
+            android:layout_height="100dp"
             android:ems="10"
             android:gravity="top"
-            android:textSize="40px" >
+            android:textSize="15dp"
+            android:layout_below="@+id/textView7"
+            android:layout_alignParentStart="true">
 
             <requestFocus />
         </EditText>
 
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <Spinner
             android:id="@+id/spinner_operations"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:drawSelectorOnTop="true"
             android:prompt="@string/spinner"
-            />
+            android:layout_below="@+id/matrix_B"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/matrix_B" />
 
         <Button
             android:id="@+id/equal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/equal" />
+            android:text="@string/equal"
+            android:layout_below="@+id/matrix_A"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/spinner_operations"
+            android:layout_alignStart="@+id/matrix_A" />
 
-    </TableRow>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-    </LinearLayout>
-
-
-</TableLayout>
+    </RelativeLayout>
 </FrameLayout><!-- From: file:/home/omar/Android/Matrixulcation/MatrixCalc/src/main/res/layout/activity_matrix.xml -->
