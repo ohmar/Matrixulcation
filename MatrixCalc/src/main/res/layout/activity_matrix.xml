@@ -20,23 +20,25 @@
             android:text="@string/matrix_a"
             android:textSize="20sp"
             android:padding="10dip"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6"
+            android:id="@+id/matrix_a_textView"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/spinner_operations" />
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/matrix_B" />
+
 
         <!-- TextView for title of the second matrix -->
         <TextView
             android:text="@string/matrix_b"
             android:textSize="20sp"
             android:padding="10dip"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/textView7"
-            android:layout_alignEnd="@+id/matrix_B" />
+            android:id="@+id/matrix_b_textView"
+            android:layout_toRightOf="@+id/spinner_operations" />
+
 
         <!-- EditText for Matrix A -->
         <EditText
@@ -47,9 +49,8 @@
             android:ems="10"
             android:gravity="top"
             android:textSize="15sp"
-            android:layout_below="@+id/textView6"
-            android:layout_toRightOf="@+id/matrix_B"
-            android:layout_alignParentStart="false" />
+            android:layout_below="@+id/matrix_a_textView"
+            android:layout_alignParentStart="true" />
 
         <!-- EditText for Matrix B -->
         <EditText
@@ -60,8 +61,9 @@
             android:ems="10"
             android:gravity="top"
             android:textSize="15sp"
-            android:layout_below="@+id/textView7"
-            android:layout_alignParentStart="true">
+            android:layout_below="@+id/matrix_b_textView"
+            android:layout_toRightOf="@+id/matrix_A"
+            android:layout_alignParentStart="false">
 
             <requestFocus />
         </EditText>
@@ -73,9 +75,9 @@
             android:layout_height="45dp"
             android:drawSelectorOnTop="true"
             android:prompt="@string/spinner"
-            android:layout_below="@+id/matrix_B"
+            android:layout_below="@+id/matrix_A"
             android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/matrix_B" />
+            android:layout_alignEnd="@+id/matrix_A" />
 
         <!-- Button to get out calculation -->
         <Button
@@ -83,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/equal"
-            android:layout_below="@+id/matrix_A"
+            android:layout_below="@+id/matrix_B"
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/spinner_operations"
-            android:layout_alignStart="@+id/matrix_A" />
+            android:layout_alignStart="@+id/matrix_B" />
 
     </RelativeLayout>
 </FrameLayout>

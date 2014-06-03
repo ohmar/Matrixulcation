@@ -34,9 +34,9 @@ public class MatrixActivity extends Activity {
     public boolean dimension_good=true;
 
 
-    public int i,j;
+    public int i,j,k;
     public static String c_result = "", R_tmp;
-    EditText matrix_B, matrix_A;
+    EditText matrix_A, matrix_B, matrix_C;
     Button equal;
     Spinner spinner_operations;
 
@@ -240,7 +240,7 @@ public class MatrixActivity extends Activity {
     // Compute A * B
     private void Equal_AxB() {
         int x = matrix_A_array.length;
-        int y = matrix_B_array[0].length;
+        int y = matrix_B_array.length;
         C = new double[x][y];
         for(int i = 0; i < x; i++) {
             for(int j = 0; j < y; j++) {
@@ -251,7 +251,6 @@ public class MatrixActivity extends Activity {
         }
         return;
     }
-
 
     // Compute A + B
     private void Equal_AplusB() {
@@ -269,7 +268,7 @@ public class MatrixActivity extends Activity {
     // Compute A * A
     private void Equal_AxA() {
         int x = matrix_A_array.length;
-        int y = matrix_A_array[0].length;
+        int y = matrix_A_array.length;
         C = new double[x][y];
         for(int i = 0; i < x; i++) {
             for(int j = 0; j < y; j++) {
@@ -285,7 +284,7 @@ public class MatrixActivity extends Activity {
     // Compute B * B
     private void Equal_BxB() {
         int x = matrix_B_array.length;
-        int y = matrix_B_array[0].length;
+        int y = matrix_B_array.length;
         C = new double[x][y];
         for(int i = 0; i < x; i++) {
             for(int j = 0; j < y; j++) {

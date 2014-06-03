@@ -1064,11 +1064,13 @@ containing a value of this type.
         public static final int dialog_result_copy=0x7f0a001e;
         public static final int dialog_result_title=0x7f0a001f;
         public static final int equal=0x7f0a0020;
-        public static final int menu_about=0x7f0a0021;
-        public static final int menu_close=0x7f0a0022;
-        public static final int menu_settings=0x7f0a0023;
-        public static final int spinner=0x7f0a0024;
-        public static final int toast_copied=0x7f0a0025;
+        public static final int matrix_a=0x7f0a0021;
+        public static final int matrix_b=0x7f0a0022;
+        public static final int menu_about=0x7f0a0023;
+        public static final int menu_close=0x7f0a0024;
+        public static final int menu_settings=0x7f0a0025;
+        public static final int spinner=0x7f0a0026;
+        public static final int toast_copied=0x7f0a0027;
     }
     public static final class style {
         public static final int AppTheme=0x7f0b0000;
