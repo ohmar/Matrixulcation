@@ -256,7 +256,6 @@ public class MatrixActivity extends Activity {
                 }
             }
         }
-        return;
     }
 
     // Compute A + B
@@ -269,7 +268,6 @@ public class MatrixActivity extends Activity {
                 C[i][j] = matrix_A_array[i][j]+matrix_B_array[i][j];
             }
         }
-        return;
     }
 
     // Compute A * A
@@ -285,8 +283,6 @@ public class MatrixActivity extends Activity {
                 }
             }
         }
-
-        return;
     }
 
     // Compute B * B
@@ -301,8 +297,6 @@ public class MatrixActivity extends Activity {
                 }
             }
         }
-
-        return;
     }
 
     // Converting calculated results to string
@@ -328,7 +322,6 @@ public class MatrixActivity extends Activity {
             }
             c_result= c_result  + "\n";
         }
-        return;
     }
 
     /* Creating dialog functions */
@@ -349,7 +342,6 @@ public class MatrixActivity extends Activity {
                             dismiss();
                             Toast WhereToast = Toast.makeText(getApplicationContext(), R.string.toast_copied, Toast.LENGTH_SHORT);
                             WhereToast.show();
-                            return;
                         }
                     })
                     .setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
@@ -380,7 +372,7 @@ public class MatrixActivity extends Activity {
                    .setMessage(R.string.dialog_dimension_message)
                    .setPositiveButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            return;
+                            // Close dialog
                         }
                     });
             return builder.create();
@@ -403,13 +395,11 @@ public class MatrixActivity extends Activity {
                    .setPositiveButton(R.string.dialog_about_thanks, new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int whichButton ) {
                            // Thanks
-                           return;
                        }
                    })
                    .setNegativeButton( R.string.dialog_close, new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int whichButton) {
                            // Cancelled dialog
-                           return;
                        }
                    });
             // Create the AlertDialog object and return it
