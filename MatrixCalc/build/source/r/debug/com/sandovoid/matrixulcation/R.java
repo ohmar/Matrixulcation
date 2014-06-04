@@ -964,7 +964,9 @@ containing a value of this type.
         public static final int listMode=0x7f070001;
         public static final int list_item=0x7f070029;
         public static final int matrix_A=0x7f070040;
-        public static final int matrix_B=0x7f07003f;
+        public static final int matrix_B=0x7f07003d;
+        public static final int matrix_a_textView=0x7f07003c;
+        public static final int matrix_b_textView=0x7f07003e;
         public static final int middle=0x7f07000b;
         public static final int never=0x7f07000d;
         public static final int none=0x7f070009;
@@ -986,12 +988,10 @@ containing a value of this type.
         public static final int showCustom=0x7f070007;
         public static final int showHome=0x7f070004;
         public static final int showTitle=0x7f070006;
-        public static final int spinner_operations=0x7f07003d;
+        public static final int spinner_operations=0x7f07003f;
         public static final int split_action_bar=0x7f07001e;
         public static final int submit_area=0x7f070039;
         public static final int tabMode=0x7f070002;
-        public static final int textView6=0x7f07003c;
-        public static final int textView7=0x7f07003e;
         public static final int title=0x7f07002b;
         public static final int top_action_bar=0x7f070020;
         public static final int up=0x7f070021;

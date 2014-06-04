@@ -212,6 +212,9 @@ public class MatrixActivity extends Activity {
                 }
                 break;
             case CHECK_DIMENSION_APLUSB:
+
+                // if A number of rows equals B number of rows AND
+                // number of A columns equals number of B columns
                 if( matrix_A_array.length == matrix_B_array.length &&
                    matrix_A_array[0].length == matrix_B_array[0].length ) {
                     dimension_valid = true;
@@ -220,6 +223,8 @@ public class MatrixActivity extends Activity {
                 }
                 break;
             case CHECK_DIMENSION_APLUSA:
+
+                // if number of rows is equal to number of columns, dimensions valid
                 if( matrix_A_array.length == matrix_A_array[0].length ) {
                     dimension_valid = true;
                 } else {
@@ -239,13 +244,15 @@ public class MatrixActivity extends Activity {
 
     // Compute A * B
     private void Equal_AxB() {
-        int x = matrix_A_array.length;
-        int y = matrix_B_array.length;
-        C = new double[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
-                for(int k = 0; k < y; k++) {
-                    C[i][j] += matrix_A_array[i][k]*matrix_B_array[k][j];
+        int m = matrix_A_array.length; // A rows
+        int n = matrix_A_array[0].length; // A columns
+        int p = matrix_B_array[0].length; // B columns
+
+        C = new double[m][p];
+        for(int i = 0; i < m; i++) { // Keep iterating until the last row of A
+            for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
+                for(int k = 0; k < n; k++) { // Keep iterating until last column of A
+                    C[i][j] += matrix_A_array[i][k] * matrix_B_array[k][j]; // Keep sum
                 }
             }
         }
@@ -254,11 +261,11 @@ public class MatrixActivity extends Activity {
 
     // Compute A + B
     private void Equal_AplusB() {
-        int x = matrix_A_array.length;
-        int y = matrix_B_array.length;
-        C = new double[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
+        int m = matrix_A_array.length; // A rows
+        int n = matrix_B_array.length; // B rows
+        C = new double[m][n];
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
                 C[i][j] = matrix_A_array[i][j]+matrix_B_array[i][j];
             }
         }
@@ -267,12 +274,13 @@ public class MatrixActivity extends Activity {
 
     // Compute A * A
     private void Equal_AxA() {
-        int x = matrix_A_array.length;
-        int y = matrix_A_array.length;
-        C = new double[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
-                for(int k = 0; k < y; k++){
+        int m = matrix_A_array.length; // A rows
+        int n = matrix_A_array[0].length; // A columns
+        C = new double[m][n];
+
+        for(int i = 0; i < m; i++) { // Keep iterating until the last A row is reached
+            for(int j = 0; j < n; j++) { // Keep iterating until the last A columns is reached
+                for(int k = 0; k < n; k++) {
                     C[i][j] += matrix_A_array[i][k]*matrix_A_array[k][j];
                 }
             }
@@ -283,12 +291,12 @@ public class MatrixActivity extends Activity {
 
     // Compute B * B
     private void Equal_BxB() {
-        int x = matrix_B_array.length;
-        int y = matrix_B_array.length;
-        C = new double[x][y];
-        for(int i = 0; i < x; i++) {
-            for(int j = 0; j < y; j++) {
-                for(int k = 0; k < y; k++){
+        int m = matrix_B_array.length;
+        int n = matrix_B_array[0].length;
+        C = new double[m][n];
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < n; k++){
                     C[i][j] += matrix_B_array[i][k]*matrix_B_array[k][j];
                 }
             }
