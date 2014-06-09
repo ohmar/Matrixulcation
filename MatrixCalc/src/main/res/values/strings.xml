@@ -19,7 +19,7 @@
     <string name="dialog_close">Close</string>
     <string name="dialog_no_inverse">\nThis matrix has no inverse.\n</string>
     <string name="dialog_about_title">About</string>
-    <string name="dialog_about">Matrix Calculator \n ver 1.1.1.1.1</string>
+    <string name="dialog_about">Matrix Calculator \nVersion 0.1</string>
     <string name="dialog_about_thanks">Thank you</string>
 
     <string name="dialog_result_copy">Copy to Clipboard</string>

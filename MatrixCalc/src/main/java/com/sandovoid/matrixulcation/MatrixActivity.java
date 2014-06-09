@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import android.view.View;
 import android.widget.Toast;
 import android.app.DialogFragment;
+import Jama.*;
 
 public class MatrixActivity extends Activity {
 
@@ -27,6 +28,9 @@ public class MatrixActivity extends Activity {
     public static final int CHECK_DIMENSION_APLUSB = 2;
     public static final int CHECK_DIMENSION_APLUSA = 3;
     public static final int CHECK_DIMENSION_BPLUSB = 4;
+    public static final int CHECK_DIMENSION_AMINUSB = 5;
+    public static final int CHECK_DIMENSION_TRANSPOSEA = 6;
+    public static final int CHECK_DIMENSION_TRANSPOSEB = 7;
     public static final int CLOSE_ID = 1;
     public static final int ABOUT_ID = 2;
     public static final int SETTINGS_ID = 3;
@@ -40,7 +44,8 @@ public class MatrixActivity extends Activity {
     Button equal;
     Spinner spinner_operations;
 
-    private static final String[] array = {"A + B", "A x B", "A x A", "B x B", };
+    private int[] piv;
+    private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
 
 
     @Override
@@ -75,6 +80,7 @@ public class MatrixActivity extends Activity {
         }
 
         private void StartFunctions(String v){
+
             if (v.equals("A x B")) {
                 CreateA_Array();
                 CreateB_Array();
@@ -87,11 +93,22 @@ public class MatrixActivity extends Activity {
                 }
             }
             if (v.equals("A + B")) {
-
                 CreateA_Array();
                 CreateB_Array();
                 if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
                     if(dimension_good) Equal_AplusB();
+                    if(dimension_good) SetResult();
+                    if(dimension_good) ShowResultDialog();
+                } else {
+                    ShowDimensionDialog();
+                }
+            }
+
+            if (v.equals("A - B")) {
+                CreateA_Array();
+                CreateB_Array();
+                if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
+                    if(dimension_good) Equal_AminusB();
                     if(dimension_good) SetResult();
                     if(dimension_good) ShowResultDialog();
                 } else {
@@ -116,6 +133,26 @@ public class MatrixActivity extends Activity {
                     if(dimension_good) Equal_BxB();
                     if(dimension_good) SetResult();
                     if(dimension_good) ShowResultDialog();
+                } else {
+                    ShowDimensionDialog();
+                }
+            }
+            if (v.equals("Transpose A")) {
+                CreateA_Array();
+                if(DimensionalCheck(CHECK_DIMENSION_TRANSPOSEA)) {
+                    if(dimension_good) Transpose_A();
+                    if(dimension_good) SetResult();
+                    if(dimension_good) ShowResultDialog();
+                } else {
+                    ShowDimensionDialog();
+                }
+            }
+            if (v.equals("Transpose B")) {
+                CreateB_Array();
+                if( DimensionalCheck(CHECK_DIMENSION_TRANSPOSEB)) {
+                    if( dimension_good ) Transpose_B();
+                    if( dimension_good ) SetResult();
+                    if( dimension_good ) ShowResultDialog();
                 } else {
                     ShowDimensionDialog();
                 }
@@ -148,7 +185,7 @@ public class MatrixActivity extends Activity {
 
     // Create an initial 2-dimensional array in input box
     private void CreateA_Array() {
-        dimension_good=true;
+        dimension_good = true;
 
         String S_matrix_A = matrix_A.getText().toString();
 
@@ -161,6 +198,7 @@ public class MatrixActivity extends Activity {
         matrix_A_array = new double[A_m.length][A_n.length];
 
         i=0;j=0;
+
         for(i=0; i < A_m.length; i++) {
             A_tmp = A_m[i].split(",");
             for(j=0; j < A_n.length; j++) {
@@ -188,13 +226,14 @@ public class MatrixActivity extends Activity {
         matrix_B_array = new double[B_m.length][B_n.length];
 
         i=0;j=0;
-        for(i=0; i < B_m.length; i++) {
+        for( i=0; i < B_m.length; i++ ) {
             B_tmp = B_m[i].split(",");
-            for(j=0; j < B_n.length; j++) {
+
+            for( j=0; j < B_n.length; j++ ) {
                 try {
                     matrix_B_array[i][j] = Double.valueOf(B_tmp[j]).doubleValue();
-                } catch(NumberFormatException nfe) {
-                    dimension_good=false;
+                } catch( NumberFormatException nfe ) {
+                    dimension_good = false;
                     ShowInputErrorDialog();
                 }
             }
@@ -222,6 +261,17 @@ public class MatrixActivity extends Activity {
                     dimension_valid = false;
                 }
                 break;
+            case CHECK_DIMENSION_AMINUSB:
+
+                // if A number of rows equals B number of rows AND
+                // number of A columns equals number of B columns
+                if( matrix_A_array.length == matrix_B_array.length &&
+                    matrix_A_array[0].length == matrix_B_array[0].length ) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
             case CHECK_DIMENSION_APLUSA:
 
                 // if number of rows is equal to number of columns, dimensions valid
@@ -233,6 +283,24 @@ public class MatrixActivity extends Activity {
                 break;
             case CHECK_DIMENSION_BPLUSB:
                 if( matrix_B_array.length == matrix_B_array[0].length ) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
+            case CHECK_DIMENSION_TRANSPOSEA:
+                if( matrix_A_array.length < matrix_A_array[0].length ||
+                    matrix_A_array.length > matrix_A_array[0].length ||
+                    matrix_A_array.length == matrix_A_array[0].length ) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
+            case CHECK_DIMENSION_TRANSPOSEB:
+                if( matrix_B_array.length < matrix_B_array[0].length ||
+                    matrix_B_array.length > matrix_B_array[0].length ||
+                    matrix_B_array.length == matrix_B_array[0].length ) {
                     dimension_valid = true;
                 } else {
                     dimension_valid = false;
@@ -270,6 +338,19 @@ public class MatrixActivity extends Activity {
         }
     }
 
+    private void Equal_AminusB() {
+        int mA = matrix_A_array.length;
+        int nA = matrix_A_array[0].length;
+        int mB = matrix_B_array.length;
+        int nB = matrix_B_array[0].length;
+        C = new double[mA][mB];
+        for( int i = 0; i < mA; i++) {
+            for( int j = 0; j< mB; j++) {
+                C[i][j] = matrix_A_array[i][j] - matrix_B_array[i][j];
+            }
+        }
+    }
+
     // Compute A * A
     private void Equal_AxA() {
         int m = matrix_A_array.length; // A rows
@@ -290,11 +371,35 @@ public class MatrixActivity extends Activity {
         int m = matrix_B_array.length;
         int n = matrix_B_array[0].length;
         C = new double[m][n];
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                for(int k = 0; k < n; k++){
+        for( int i = 0; i < m; i++ ) {
+            for( int j = 0; j < n; j++ ) {
+                for( int k = 0; k < n; k++ ){
                     C[i][j] += matrix_B_array[i][k]*matrix_B_array[k][j];
                 }
+            }
+        }
+    }
+
+    // A matrix M x N will have transpose N x M
+    private void Transpose_A() {
+        int m = matrix_A_array.length;
+        int n = matrix_A_array[0].length;
+        C = new double[n][m];
+        for( int i = 0; i < m; i++ ) {
+            for( int j = 0; j < n; j++ ) {
+                C[j][i] = matrix_A_array[i][j];
+            }
+        }
+    }
+
+    // A matrix M x N will have transpose N x M
+    private void Transpose_B() {
+        int m = matrix_B_array.length;
+        int n = matrix_B_array[0].length;
+        C = new double[n][m];
+        for( int i = 0; i < m; i++ ) {
+            for( int j = 0; j < n; j++ ) {
+                C[j][i] = matrix_B_array[i][j];
             }
         }
     }
@@ -302,17 +407,17 @@ public class MatrixActivity extends Activity {
     // Converting calculated results to string
     private void SetResult(){
         c_result="";
-        for( i=0;i < C.length; i++ ) {
-            for( j=0;j < C[0].length;j++ ) {
+        for( i = 0; i < C.length; i++ ) {
+            for( j = 0; j < C[0].length; j++ ) {
 
                 int decimalPlace = 3;
                 BigDecimal bd = new BigDecimal(C[i][j]);
                 bd = bd.setScale(decimalPlace,BigDecimal.ROUND_UP);
                 C[i][j] = bd.doubleValue();
 
-                if((C[i][j] - Double.valueOf(C[i][j]).intValue())==0){
+                if( (C[i][j] - Double.valueOf(C[i][j]).intValue() ) == 0){
                     R_tmp =  ""+Double.valueOf(C[i][j]).intValue();
-                }else{
+                } else {
                     R_tmp =  ""+Double.valueOf(C[i][j]).floatValue();
                 }
                 if(j!=0)
@@ -320,7 +425,7 @@ public class MatrixActivity extends Activity {
                 else
                     c_result = c_result + "" + R_tmp;
             }
-            c_result= c_result  + "\n";
+            c_result = c_result  + "\n";
         }
     }
 
@@ -330,25 +435,25 @@ public class MatrixActivity extends Activity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),AlertDialog.THEME_HOLO_DARK);
             builder.setMessage(c_result)
-                    .setTitle( R.string.dialog_result_title )
-                    .setPositiveButton(R.string.dialog_result_copy, new DialogInterface.OnClickListener() {
+                   .setTitle( R.string.dialog_result_title )
+                   .setPositiveButton(R.string.dialog_result_copy, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            // Copy result
-                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Result", c_result);
-                            clipboard.setPrimaryClip(clip);
-                            dismiss();
-                            Toast WhereToast = Toast.makeText(getApplicationContext(), R.string.toast_copied, Toast.LENGTH_SHORT);
-                            WhereToast.show();
-                        }
+                           // Copy result
+                           ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                           ClipData clip = ClipData.newPlainText("Result", c_result);
+                           clipboard.setPrimaryClip(clip);
+                           dismiss();
+                           Toast WhereToast = Toast.makeText(getApplicationContext(), R.string.toast_copied, Toast.LENGTH_SHORT);
+                           WhereToast.show();
+                       }
                     })
-                    .setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
+                   .setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            // Close result dialog
-                            dismiss();
-                        }
+                           // Close result dialog
+                           dismiss();
+                       }
                     });
             // Create the AlertDialog object and return it
             return builder.create();
@@ -366,7 +471,7 @@ public class MatrixActivity extends Activity {
         @Override
         public Dialog onCreateDialog( Bundle savedInstanceState ) {
             // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_DARK);
             builder.setIcon(android.R.drawable.ic_dialog_info)
                    .setTitle(R.string.dialog_dimension_title)
                    .setMessage(R.string.dialog_dimension_message)
@@ -390,7 +495,7 @@ public class MatrixActivity extends Activity {
         @Override
         public Dialog onCreateDialog( Bundle savedInstanceState ) {
             // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),AlertDialog.THEME_HOLO_DARK);
             builder.setMessage( R.string.dialog_about )
                    .setPositiveButton(R.string.dialog_about_thanks, new DialogInterface.OnClickListener() {
                        public void onClick( DialogInterface dialog, int whichButton ) {
