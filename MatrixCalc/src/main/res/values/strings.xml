@@ -4,6 +4,7 @@
     <string name="app_name">Matrixulcation</string>
     <string name="spinner">Functions</string>
     <string name="equal">Equal</string>
+    <string name="swap">Swap A and B</string>
     <string name="matrix_a">Matrix A:</string>
     <string name="matrix_b">Matrix B:</string>
 

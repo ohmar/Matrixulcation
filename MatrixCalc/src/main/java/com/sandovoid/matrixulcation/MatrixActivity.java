@@ -1,5 +1,4 @@
 package com.sandovoid.matrixulcation;
-
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
@@ -42,8 +41,8 @@ public class MatrixActivity extends Activity {
     public static String c_result = "", R_tmp;
     EditText matrix_A, matrix_B, matrix_C;
     Button equal;
+    Button swap;
     Spinner spinner_operations;
-
     private int[] piv;
     private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
 
@@ -52,7 +51,6 @@ public class MatrixActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
@@ -69,6 +67,8 @@ public class MatrixActivity extends Activity {
         equal = (Button)findViewById(R.id.equal);
         equal.setOnClickListener(new clicker());
 
+        swap = (Button)findViewById(R.id.swap);
+        swap.setOnClickListener(new clicker());
     }
 
     class clicker implements Button.OnClickListener {
@@ -76,6 +76,13 @@ public class MatrixActivity extends Activity {
             if(v == equal) {
                 String s = (String) spinner_operations.getSelectedItem();
                 StartFunctions(s);
+            }
+
+            if(v == swap){
+                String Orig_A = matrix_A.getText().toString();
+                String Orig_B = matrix_B.getText().toString();
+                matrix_A.setText(Orig_B);
+                matrix_B.setText(Orig_A);
             }
         }
 

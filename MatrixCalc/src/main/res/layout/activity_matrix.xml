@@ -87,8 +87,16 @@
             android:text="@string/equal"
             android:layout_below="@+id/matrix_B"
             android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/spinner_operations"
             android:layout_alignStart="@+id/matrix_B" />
+
+        <Button
+            android:id="@+id/swap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/swap"
+            android:layout_alignRight="@id/equal"
+            android:layout_below="@id/equal"
+            android:layout_alignStart="@id/equal"/>
 
     </RelativeLayout>
 </FrameLayout>
