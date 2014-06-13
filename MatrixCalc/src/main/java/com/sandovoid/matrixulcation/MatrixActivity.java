@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,8 @@ import java.math.BigDecimal;
 import android.view.View;
 import android.widget.Toast;
 import android.app.DialogFragment;
-import Jama.*;
+import android.app.ActionBar;
+
 
 public class MatrixActivity extends Activity {
 
@@ -35,7 +37,6 @@ public class MatrixActivity extends Activity {
     public static final int SETTINGS_ID = 3;
     public boolean dimension_valid;
     public boolean dimension_good=true;
-
 
     public int i,j,k;
     public static String c_result = "", R_tmp;
@@ -170,16 +171,14 @@ public class MatrixActivity extends Activity {
     // Creating our Spinner items
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        boolean result = super.onCreateOptionsMenu(menu);
-        menu.add(0, CLOSE_ID, 0, R.string.menu_close); // menu_insert (strings.xml)
-        menu.add(0, ABOUT_ID, 0, R.string.menu_about) // menu_insert (strings.xml)
-                .setIcon(android.R.drawable.ic_menu_info_details);
-        menu.add(0, SETTINGS_ID, 0, R.string.menu_settings); // menu_insert (strings.xml)
-        return result;
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     // OnClick monitoring our menu items
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) { //onOptionsItemSelected calling functions
         switch (item.getItemId()) {
             case CLOSE_ID:
@@ -188,6 +187,18 @@ public class MatrixActivity extends Activity {
                 ShowAboutDialog();
         }
         return true;
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                ShowAboutDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Create an initial 2-dimensional array in input box
