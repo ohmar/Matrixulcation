@@ -61,7 +61,7 @@ public class MatrixActivity extends Activity {
     private CharSequence mTitle;
     private String[] mOperationTitles;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -110,7 +110,7 @@ public class MatrixActivity extends Activity {
 
 
     }
-        /*super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
 
         matrix_A = (EditText)findViewById(R.id.matrix_A);
@@ -130,7 +130,7 @@ public class MatrixActivity extends Activity {
         swap.setOnClickListener(new clicker());
     }*/
 
-    /*private NavigationDrawerFragment mNavigationDrawerFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,10 +145,6 @@ public class MatrixActivity extends Activity {
         mNavigationDrawerFragment.setUp(
                 R.id.left_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-    }*/
-
-    public void equalButton() {
-
     }
 
 /*
