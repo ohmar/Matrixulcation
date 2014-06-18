@@ -2,12 +2,20 @@ package com.sandovoid.matrixulcation;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.content.ClipboardManager;
@@ -18,8 +26,9 @@ import java.math.BigDecimal;
 import android.view.View;
 import android.widget.Toast;
 import android.app.DialogFragment;
-import android.app.ActionBar;
-
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
 
 public class MatrixActivity extends Activity {
 
@@ -32,9 +41,6 @@ public class MatrixActivity extends Activity {
     public static final int CHECK_DIMENSION_AMINUSB = 5;
     public static final int CHECK_DIMENSION_TRANSPOSEA = 6;
     public static final int CHECK_DIMENSION_TRANSPOSEB = 7;
-    public static final int CLOSE_ID = 1;
-    public static final int ABOUT_ID = 2;
-    public static final int SETTINGS_ID = 3;
     public boolean dimension_valid;
     public boolean dimension_good=true;
 
@@ -47,14 +53,66 @@ public class MatrixActivity extends Activity {
     private int[] piv;
     private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
 
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private String[] mOperationTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matrix);
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mTitle = mDrawerTitle = getTitle();
+        mOperationTitles = getResources().getStringArray(R.array.operations_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        // Set up the drawer's list view with items and click listener
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mOperationTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        // ActionBarDrawerToggle ties together the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close
+        ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
+
+
+    }
+        /*super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matrix);
+
         matrix_A = (EditText)findViewById(R.id.matrix_A);
         matrix_B = (EditText)findViewById(R.id.matrix_B);
 
@@ -70,8 +128,30 @@ public class MatrixActivity extends Activity {
 
         swap = (Button)findViewById(R.id.swap);
         swap.setOnClickListener(new clicker());
+    }*/
+
+    /*private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.left_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.left_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+    }*/
+
+    public void equalButton() {
+
     }
 
+/*
     class clicker implements Button.OnClickListener {
         public void onClick(View v) {
             if(v == equal) {
@@ -167,6 +247,7 @@ public class MatrixActivity extends Activity {
             }
         }
     }
+*/
 
     // Creating our Spinner items
     @Override
@@ -189,6 +270,13 @@ public class MatrixActivity extends Activity {
         return true;
     }*/
 
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_about).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -199,6 +287,121 @@ public class MatrixActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    private void selectItem(int position) {
+        // Update the main content by replacing fragments
+        Fragment fragment = new OperationFragment();
+        Bundle args = new Bundle();
+        args.putInt(OperationFragment.ARG_OPERATION_NUMBER, position);
+        fragment.setArguments(args);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        // Update selected item and title, then close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mOperationTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occures.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggle
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = getString(R.string.operation_title1);
+            case 2:
+                mTitle = getString(R.string.operation_title2);
+            case 3:
+                mTitle = getString(R.string.operation_title3);
+        }
+    }
+
+    /**
+     * Fragment that appears in content_frame will show matrix (for now)
+     */
+
+    public class OperationFragment extends Fragment {
+        public static final String ARG_OPERATION_NUMBER = "operation_number";
+
+        public OperationFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_root, container, false);
+            int i = getArguments().getInt(ARG_OPERATION_NUMBER);
+            String operation = getResources().getStringArray(R.array.operations_array)[i];
+
+            /*
+            setSpinnerContent(rootView);
+            matrix_A = (EditText) rootView.findViewById(R.id.matrix_A);
+            matrix_B = (EditText) rootView.findViewById(R.id.matrix_B);
+            final Button swap = (Button) findViewById(R.id.swap);
+            swap.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    String Orig_A = matrix_A.getText().toString();
+                    String Orig_B = matrix_B.getText().toString();
+                    matrix_A.setText(Orig_B);
+                    matrix_B.setText(Orig_A);
+                }
+            });
+            final Button equal = (Button) findViewById(R.id.equal);
+            equal.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v){
+                    String s = (String) spinner_operations.getSelectedItem();
+                    if (s.equals("A x B")) {
+                        CreateA_Array();
+                        CreateB_Array();
+                        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
+                            if (dimension_good) Equal_AxB();
+                            if (dimension_good) SetResult();
+                            if (dimension_good) ShowResultDialog();
+                        } else {
+                            ShowDimensionDialog();
+                        }
+                    }
+                }
+            });
+            */
+
+            return rootView;
+        }
+    }
+
+    private void setSpinnerContent(View view) {
+        spinner_operations = (Spinner) view.findViewById(R.id.spinner_operations);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+
+        spinner_operations.setAdapter(adapter);
     }
 
     // Create an initial 2-dimensional array in input box
@@ -478,7 +681,6 @@ public class MatrixActivity extends Activity {
         }
     }
 
-    // TODO: Change style for dialogs.
     public void ShowResultDialog() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment newFragment = new ResultDialogFragment();

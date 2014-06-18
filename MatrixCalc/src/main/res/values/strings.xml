@@ -34,5 +34,27 @@
 
     <string name="toast_copied">Copied</string>
     <string name="action_about">About</string>
+    <string name="action_example">Example</string>
+
+    <string name="operation_title1">Binary Operations</string>
+    <string name="operation_title2">Solve Operations</string>
+    <string name="operation_title3">Test Operations</string>
+
+    <string-array name="operations_array">
+        <item>Binary Operations</item>
+        <item>Solve Operations</item>
+        <item>Test Operations</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="operations">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>100</item>
+        <item>1000</item>
+        <item>10000</item>
+    </string-array>
 
 </resources>

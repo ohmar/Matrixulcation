@@ -1,102 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Changed to RelativeLayout for better handling of screen sizes -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false"
-    >
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp" >
 
-    <!-- Changed to RelativeLayout for better handling of screen sizes -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- TextView for title of the first matrix -->
+    <TextView
+        android:id="@+id/matrix_a_textView"
+        android:text="@string/matrix_a"
+        android:textSize="20sp"
+        android:padding="10dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/matrix_B" />
+
+
+    <!-- TextView for title of the second matrix -->
+    <TextView
+        android:id="@+id/matrix_b_textView"
+        android:text="@string/matrix_b"
+        android:textSize="20sp"
+        android:padding="10dip"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
-
-        <!-- TextView for title of the first matrix -->
-        <TextView
-            android:text="@string/matrix_a"
-            android:textSize="20sp"
-            android:padding="10dip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/matrix_a_textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/matrix_B" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/spinner_operations" />
 
 
-        <!-- TextView for title of the second matrix -->
-        <TextView
-            android:text="@string/matrix_b"
-            android:textSize="20sp"
-            android:padding="10dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/matrix_b_textView"
-            android:layout_toRightOf="@+id/spinner_operations" />
+    <!-- EditText for Matrix A -->
+    <EditText
+        android:id="@+id/matrix_A"
+        android:text="@string/default_values"
+        android:layout_width="175dp"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:layout_below="@+id/matrix_a_textView"
+        android:layout_alignParentStart="true" />
 
+    <!-- EditText for Matrix B -->
+    <EditText
+        android:id="@+id/matrix_B"
+        android:text="@string/default_values2"
+        android:layout_width="175dp"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:layout_below="@+id/matrix_b_textView"
+        android:layout_toRightOf="@+id/matrix_A"
+        android:layout_alignParentStart="false">
 
-        <!-- EditText for Matrix A -->
-        <EditText
-            android:id="@+id/matrix_A"
-            android:text="@string/default_values"
-            android:layout_width="175dp"
-            android:layout_height="100dp"
-            android:ems="10"
-            android:gravity="top"
-            android:textSize="15sp"
-            android:layout_below="@+id/matrix_a_textView"
-            android:layout_alignParentStart="true" />
+        <requestFocus />
+    </EditText>
 
-        <!-- EditText for Matrix B -->
-        <EditText
-            android:id="@+id/matrix_B"
-            android:text="@string/default_values2"
-            android:layout_width="175dp"
-            android:layout_height="100dp"
-            android:ems="10"
-            android:gravity="top"
-            android:textSize="15sp"
-            android:layout_below="@+id/matrix_b_textView"
-            android:layout_toRightOf="@+id/matrix_A"
-            android:layout_alignParentStart="false">
+    <!-- Spinner for our list of functions -->
+    <Spinner
+        android:id="@+id/spinner_operations"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:drawSelectorOnTop="true"
+        android:prompt="@string/spinner"
+        android:layout_below="@+id/matrix_A"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/matrix_A" />
 
-            <requestFocus />
-        </EditText>
+    <!-- Button to get out calculation -->
+    <Button
+        android:id="@+id/equal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/equal"
+        android:layout_below="@+id/matrix_B"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/matrix_B" />
 
-        <!-- Spinner for our list of functions -->
-        <Spinner
-            android:id="@+id/spinner_operations"
-            android:layout_width="fill_parent"
-            android:layout_height="45dp"
-            android:drawSelectorOnTop="true"
-            android:prompt="@string/spinner"
-            android:layout_below="@+id/matrix_A"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/matrix_A" />
+    <Button
+        android:id="@+id/swap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/swap"
+        android:layout_alignRight="@id/equal"
+        android:layout_below="@id/equal"
+        android:layout_alignStart="@id/equal"/>
 
-        <!-- Button to get out calculation -->
-        <Button
-            android:id="@+id/equal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/equal"
-            android:layout_below="@+id/matrix_B"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/matrix_B" />
-
-        <Button
-            android:id="@+id/swap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/swap"
-            android:layout_alignRight="@id/equal"
-            android:layout_below="@id/equal"
-            android:layout_alignStart="@id/equal"/>
-
-    </RelativeLayout>
-</FrameLayout>
-
+</RelativeLayout>
