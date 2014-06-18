@@ -69,7 +69,14 @@ public class MatrixActivity extends Activity {
         equal.setOnClickListener(new clicker());
 
         swap = (Button)findViewById(R.id.swap);
-        swap.setOnClickListener(new clicker());
+        swap.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String OriginalA = matrix_A.getText().toString();
+                String OriginalB = matrix_B.getText().toString();
+                matrix_A.setText(OriginalB);
+                matrix_B.setText(OriginalA);
+            }
+        });
     }
 
     class clicker implements Button.OnClickListener {
@@ -77,13 +84,6 @@ public class MatrixActivity extends Activity {
             if(v == equal) {
                 String s = (String) spinner_operations.getSelectedItem();
                 StartFunctions(s);
-            }
-
-            if(v == swap){
-                String Orig_A = matrix_A.getText().toString();
-                String Orig_B = matrix_B.getText().toString();
-                matrix_A.setText(Orig_B);
-                matrix_B.setText(Orig_A);
             }
         }
 
