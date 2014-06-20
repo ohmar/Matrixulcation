@@ -45,7 +45,7 @@ public class MatrixActivity extends Activity {
     Button swap;
     Spinner spinner_operations;
     private int[] piv;
-    private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
+    private static final String[] array = {"A - B", "A + B", "A x B", "B x A", "A x A", "B x B", "Transpose A", "Transpose B"};
 
 
     @Override
@@ -94,6 +94,17 @@ public class MatrixActivity extends Activity {
                 CreateB_Array();
                 if(DimensionalCheck(CHECK_DIMENSION_AXB)){
                     if(dimension_good) Equal_AxB();
+                    if(dimension_good) SetResult();
+                    if(dimension_good) ShowResultDialog();
+                } else {
+                    ShowDimensionDialog();
+                }
+            }
+            if (v.equals("B x A")) {
+                CreateA_Array();
+                CreateB_Array();
+                if(DimensionalCheck(CHECK_DIMENSION_AXB)){
+                    if(dimension_good) Equal_BxA();
                     if(dimension_good) SetResult();
                     if(dimension_good) ShowResultDialog();
                 } else {
@@ -339,6 +350,22 @@ public class MatrixActivity extends Activity {
             for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
                 for(int k = 0; k < n; k++) { // Keep iterating until last column of A
                     C[i][j] += matrix_A_array[i][k] * matrix_B_array[k][j]; // Keep sum
+                }
+            }
+        }
+    }
+
+    private void Equal_BxA() {
+
+        int m = matrix_A_array.length; // A rows
+        int n = matrix_A_array[0].length; // A columns
+        int p = matrix_B_array[0].length; // B columns
+
+        C = new double[m][p];
+        for(int i = 0; i < m; i++) { // Keep iterating until the last row of A
+            for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
+                for(int k = 0; k < n; k++) { // Keep iterating until last column of A
+                    C[i][j] += matrix_A_array[k][i] * matrix_B_array[j][k]; // Keep sum
                 }
             }
         }
