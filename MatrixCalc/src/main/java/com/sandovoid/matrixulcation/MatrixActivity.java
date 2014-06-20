@@ -28,7 +28,6 @@ import android.widget.Toast;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 
 public class MatrixActivity extends Activity {
 
@@ -44,13 +43,12 @@ public class MatrixActivity extends Activity {
     public boolean dimension_valid;
     public boolean dimension_good=true;
 
-    public int i,j,k;
+    public int i,j;
     public static String c_result = "", R_tmp;
-    EditText matrix_A, matrix_B, matrix_C;
+    EditText matrix_A, matrix_B;
     Button equal;
     Button swap;
     Spinner spinner_operations;
-    private int[] piv;
     private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
 
     private DrawerLayout mDrawerLayout;
@@ -60,10 +58,10 @@ public class MatrixActivity extends Activity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mOperationTitles;
+    private String[] operations;
 
-    /*@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -79,10 +77,8 @@ public class MatrixActivity extends Activity {
                 R.layout.drawer_list_item, mOperationTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
         // ActionBarDrawerToggle ties together the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -91,63 +87,29 @@ public class MatrixActivity extends Activity {
                 R.drawable.ic_drawer,
                 R.string.drawer_open,
                 R.string.drawer_close
-        ) {
+                ) {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
+                Toast.makeText(MatrixActivity.this, "Drawer closed",
+                        Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
+                Toast.makeText(MatrixActivity.this, "Drawer opened",
+                        Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+
         if (savedInstanceState == null) {
             selectItem(0);
         }
-
-
-    }
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matrix);
-
-        matrix_A = (EditText)findViewById(R.id.matrix_A);
-        matrix_B = (EditText)findViewById(R.id.matrix_B);
-
-        spinner_operations = (Spinner) findViewById (R.id.spinner_operations);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-
-        spinner_operations.setAdapter(adapter);
-
-        equal = (Button)findViewById(R.id.equal);
-        equal.setOnClickListener(new clicker());
-
-        swap = (Button)findViewById(R.id.swap);
-        swap.setOnClickListener(new clicker());
-    }*/
-
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.left_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.left_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
-/*
     class clicker implements Button.OnClickListener {
         public void onClick(View v) {
             if(v == equal) {
@@ -243,7 +205,6 @@ public class MatrixActivity extends Activity {
             }
         }
     }
-*/
 
     // Creating our Spinner items
     @Override
@@ -253,18 +214,6 @@ public class MatrixActivity extends Activity {
         inflater.inflate(R.menu.main_activity_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-    // OnClick monitoring our menu items
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) { //onOptionsItemSelected calling functions
-        switch (item.getItemId()) {
-            case CLOSE_ID:
-                finish(); // end the program
-            case ABOUT_ID:
-                ShowAboutDialog();
-        }
-        return true;
-    }*/
 
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
@@ -288,15 +237,16 @@ public class MatrixActivity extends Activity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+            Toast.makeText(getApplicationContext(), mOperationTitles[position] + " selected",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     private void selectItem(int position) {
         // Update the main content by replacing fragments
-        Fragment fragment = new OperationFragment();
+        Fragment fragment = new BinaryOperationFragment();
         Bundle args = new Bundle();
-        args.putInt(OperationFragment.ARG_OPERATION_NUMBER, position);
+        args.putInt(BinaryOperationFragment.ARG_OPERATION_NUMBER, position);
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -327,69 +277,59 @@ public class MatrixActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.operation_title1);
-            case 2:
-                mTitle = getString(R.string.operation_title2);
-            case 3:
-                mTitle = getString(R.string.operation_title3);
-        }
-    }
-
     /**
      * Fragment that appears in content_frame will show matrix (for now)
      */
 
-    public class OperationFragment extends Fragment {
+    public class BinaryOperationFragment extends Fragment {
         public static final String ARG_OPERATION_NUMBER = "operation_number";
 
-        public OperationFragment() {
+        public BinaryOperationFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_root, container, false);
             int i = getArguments().getInt(ARG_OPERATION_NUMBER);
             String operation = getResources().getStringArray(R.array.operations_array)[i];
 
-            /*
-            setSpinnerContent(rootView);
+            View rootView = inflater.inflate(R.layout.activity_binary_matrix, container, false);
+
             matrix_A = (EditText) rootView.findViewById(R.id.matrix_A);
             matrix_B = (EditText) rootView.findViewById(R.id.matrix_B);
-            final Button swap = (Button) findViewById(R.id.swap);
-            swap.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    String Orig_A = matrix_A.getText().toString();
-                    String Orig_B = matrix_B.getText().toString();
-                    matrix_A.setText(Orig_B);
-                    matrix_B.setText(Orig_A);
-                }
-            });
-            final Button equal = (Button) findViewById(R.id.equal);
-            equal.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v){
-                    String s = (String) spinner_operations.getSelectedItem();
-                    if (s.equals("A x B")) {
-                        CreateA_Array();
-                        CreateB_Array();
-                        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
-                            if (dimension_good) Equal_AxB();
-                            if (dimension_good) SetResult();
-                            if (dimension_good) ShowResultDialog();
-                        } else {
-                            ShowDimensionDialog();
-                        }
-                    }
-                }
-            });
-            */
 
             return rootView;
         }
     }
+
+    //final Button swap = (Button) findViewById(R.id.swap);
+    //swap.setOnClickListener(new View.OnClickListener() {
+    //    public void onClick(View v) {
+    //        String Orig_A = matrix_A.getText().toString();
+    //        String Orig_B = matrix_B.getText().toString();
+    //        matrix_A.setText(Orig_B);
+    //        matrix_B.setText(Orig_A);
+    //    }
+    //});
+
+    //final Button equal = (Button) findViewById(R.id.equal);
+    //equal.setOnClickListener(new View.OnClickListener() {
+    //    public void onClick(View v){
+    //        String s = (String) spinner_operations.getSelectedItem();
+    //        if (s.equals("A x B")) {
+    //            CreateA_Array();
+    //            CreateB_Array();
+    //            if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
+    //                if (dimension_good) Equal_AxB();
+    //                if (dimension_good) SetResult();
+    //                if (dimension_good) ShowResultDialog();
+    //            } else {
+    //                ShowDimensionDialog();
+    //            }
+    //        }
+    //    }
+    //});
+
 
     private void setSpinnerContent(View view) {
         spinner_operations = (Spinner) view.findViewById(R.id.spinner_operations);
