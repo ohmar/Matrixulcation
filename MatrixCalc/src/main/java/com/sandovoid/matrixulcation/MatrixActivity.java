@@ -228,7 +228,6 @@ public class MatrixActivity extends Activity {
         if(mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         switch (item.getItemId()) {
             case R.id.action_about:
                 ShowAboutDialog();
