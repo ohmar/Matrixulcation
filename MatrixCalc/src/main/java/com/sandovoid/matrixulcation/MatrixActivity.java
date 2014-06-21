@@ -28,8 +28,9 @@ import android.widget.Toast;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class MatrixActivity extends Activity {
+public class MatrixActivity extends Activity implements OnItemClickListener {
 
     public double[][] matrix_A_array, matrix_B_array, C;
 
@@ -45,7 +46,7 @@ public class MatrixActivity extends Activity {
 
     public int i,j;
     public static String c_result = "", R_tmp;
-    EditText matrix_A, matrix_B;
+    static EditText matrix_A, matrix_B;
     Button equal;
     Button swap;
     Spinner spinner_operations;
@@ -75,7 +76,7 @@ public class MatrixActivity extends Activity {
         // Set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mOperationTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(this);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
@@ -90,15 +91,11 @@ public class MatrixActivity extends Activity {
                 ) {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
-                Toast.makeText(MatrixActivity.this, "Drawer closed",
-                        Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
-                Toast.makeText(MatrixActivity.this, "Drawer opened",
-                        Toast.LENGTH_SHORT).show();
                 invalidateOptionsMenu();
             }
         };
@@ -108,6 +105,10 @@ public class MatrixActivity extends Activity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+    }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        selectItem(position);
     }
 
     class clicker implements Button.OnClickListener {
@@ -237,6 +238,7 @@ public class MatrixActivity extends Activity {
         }
     }
 
+    /*
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,21 +246,46 @@ public class MatrixActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
         }
     }
+    */
 
     private void selectItem(int position) {
         // Update the main content by replacing fragments
-        Fragment fragment = new BinaryOperationFragment();
-        Bundle args = new Bundle();
-        args.putInt(BinaryOperationFragment.ARG_OPERATION_NUMBER, position);
-        fragment.setArguments(args);
+        if (position == 0) {
+            // Show the "home" fragment
+            Fragment homeFragment = new HomeFragment();
+            Bundle args = new Bundle();
+            args.putInt(HomeFragment.ARG_OPERATION_NUMBER, position);
+            homeFragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, homeFragment).commit();
 
-        // Update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mOperationTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerList.setItemChecked(position, true);
+            setTitle(mOperationTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        }
+        if (position == 1) {
+            // Show the binary operations fragment
+            Fragment binaryFragment = new BinaryOperationFragment();
+            Bundle args = new Bundle();
+            args.putInt(BinaryOperationFragment.ARG_OPERATION_NUMBER, position);
+            binaryFragment.setArguments(args);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, binaryFragment).commit();
+
+            // Update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(position, true);
+            setTitle(mOperationTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
+        if (position == 2) {
+            // TODO: Implement "Solve" operation fragment
+        }
+        if (position == 3) {
+            // TODO: Implement a few "test" operations
+        }
     }
 
     public void setTitle(CharSequence title) {
@@ -281,10 +308,30 @@ public class MatrixActivity extends Activity {
     }
 
     /**
-     * Fragment that appears in content_frame will show matrix (for now)
+     * Fragment that appears is just a basic "home" view
      */
+    public static class HomeFragment extends Fragment {
+        public static final String ARG_OPERATION_NUMBER = "operation_number";
 
-    public class BinaryOperationFragment extends Fragment {
+        public HomeFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            int i = getArguments().getInt(ARG_OPERATION_NUMBER);
+            String operation = getResources().getStringArray(R.array.operations_array)[i];
+
+            View rootView = inflater.inflate(R.layout.activity_home, container, false);
+
+            return rootView;
+        }
+    }
+
+    /**
+     * Fragment that appears in content_frame will show matrix
+     */
+    public static class BinaryOperationFragment extends Fragment {
         public static final String ARG_OPERATION_NUMBER = "operation_number";
 
         public BinaryOperationFragment() {

@@ -51,6 +51,7 @@
 
 
     <string-array name="operations_array">
+        <item>Home</item>
         <item>Binary Operations</item>
         <item>Solve Operations</item>
         <item>Test Operations</item>

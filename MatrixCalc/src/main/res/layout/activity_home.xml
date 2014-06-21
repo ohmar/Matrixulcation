@@ -7,6 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="312dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="This is the root view"
+        android:text="\nThis is the home view. \nStuff about stuff will be stuffed here."
         android:id="@+id/sample_view" />
 </LinearLayout>

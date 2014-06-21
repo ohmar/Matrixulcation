@@ -21,13 +21,13 @@
          with the content view. -->
     <ListView
         android:id="@+id/left_drawer"
+        android:background="#FF656565"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111" >
+        android:divider="#FF000000"
+        android:dividerHeight="1px" >
     </ListView>
 
 </android.support.v4.widget.DrawerLayout>
