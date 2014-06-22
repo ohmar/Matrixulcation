@@ -62,6 +62,26 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/a_minus_b"
+        android:id="@+id/a_minus_b_button"
+        android:layout_below="@+id/b_times_a_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/b_times_a_button"
+        android:onClick="aMinusB"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/b_minus_a"
+        android:id="@+id/b_minus_a_button"
+        android:layout_below="@+id/a_minus_b_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/a_minus_b_button"
+        android:onClick="bMinusA" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/a_time_b"
         android:id="@+id/a_times_b_button"
         android:layout_below="@+id/matrix_A"
@@ -76,44 +96,30 @@
         android:id="@+id/b_times_a_button"
         android:layout_below="@+id/a_times_b_button"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/a_times_b_button" />
+        android:layout_alignEnd="@+id/a_times_b_button"
+        android:onClick="bTimesA" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/a_minus_b"
-        android:id="@+id/a_minus_b_button"
-        android:layout_below="@+id/b_times_a_button"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/b_times_a_button" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/b_minus_a"
-        android:id="@+id/b_minus_a_button"
-        android:layout_below="@+id/a_minus_b_button"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/a_minus_b_button" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/a_time_a"
-        android:id="@+id/b_times_b_button"
+        android:id="@+id/a_times_a_button"
         android:layout_below="@+id/matrix_B"
         android:layout_alignEnd="@+id/matrix_B"
-        android:layout_alignStart="@+id/matrix_B" />
+        android:layout_alignStart="@+id/matrix_B"
+        android:onClick="aTimesA" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b_time_b"
-        android:id="@+id/button8"
-        android:layout_below="@+id/b_times_b_button"
-        android:layout_alignStart="@+id/b_times_b_button"
-        android:layout_alignEnd="@+id/b_times_b_button"
-        android:layout_above="@+id/a_minus_b_button" />
+        android:id="@+id/b_times_b_button"
+        android:layout_below="@+id/a_times_a_button"
+        android:layout_alignStart="@+id/a_times_a_button"
+        android:layout_alignEnd="@+id/a_times_a_button"
+        android:layout_above="@+id/a_minus_b_button"
+        android:onClick="bTimesB" />
 
     <!-- Button to get out calculation -->
 

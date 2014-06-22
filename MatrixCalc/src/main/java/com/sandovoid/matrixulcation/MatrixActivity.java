@@ -23,6 +23,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import java.math.BigDecimal;
+import java.util.Set;
+
 import android.view.View;
 import android.widget.Toast;
 import android.app.DialogFragment;
@@ -35,12 +37,14 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public double[][] matrix_A_array, matrix_B_array, C;
 
     public static final int CHECK_DIMENSION_AXB = 1;
-    public static final int CHECK_DIMENSION_APLUSB = 2;
-    public static final int CHECK_DIMENSION_APLUSA = 3;
-    public static final int CHECK_DIMENSION_BPLUSB = 4;
-    public static final int CHECK_DIMENSION_AMINUSB = 5;
-    public static final int CHECK_DIMENSION_TRANSPOSEA = 6;
-    public static final int CHECK_DIMENSION_TRANSPOSEB = 7;
+    public static final int CHECK_DIMENSION_AXA = 2;
+    public static final int CHECK_DIMENSION_BTIMESB = 3;
+    public static final int CHECK_DIMENSION_APLUSB = 4;
+    public static final int CHECK_DIMENSION_APLUSA = 5;
+    public static final int CHECK_DIMENSION_BPLUSB = 6;
+    public static final int CHECK_DIMENSION_AMINUSB = 7;
+    public static final int CHECK_DIMENSION_TRANSPOSEA = 8;
+    public static final int CHECK_DIMENSION_TRANSPOSEB = 9;
     public boolean dimension_valid;
     public boolean dimension_good=true;
 
@@ -350,6 +354,32 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    public void aMinusB(View view) {
+        CreateA_Array();
+        CreateB_Array();
+        if(DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
+            if(dimension_good) Equal_AminusB();
+            if(dimension_good) SetResult();
+            if(dimension_good) ShowResultDialog();
+        } else {
+            ShowDimensionDialog();
+        }
+    }
+
+    public void bMinusA(View view) {
+        CreateA_Array();
+        CreateB_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
+            if (dimension_good) {
+                Equal_BminusA();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
+        }
+    }
+
     public void aTimesB(View view) {
         CreateA_Array();
         CreateB_Array();
@@ -362,15 +392,43 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
-    public void aMinusB(View view) {
+    public void bTimesA(View view) {
         CreateA_Array();
         CreateB_Array();
-        if(DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
-            if(dimension_good) Equal_AminusB();
-            if(dimension_good) SetResult();
-            if(dimension_good) ShowResultDialog();
-        } else {
-            ShowDimensionDialog();
+        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
+            if (dimension_good) {
+                Equal_BtimesA();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
+        }
+    }
+
+    public void aTimesA(View view) {
+        CreateA_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_AXA)) {
+            if (dimension_good) {
+                Equal_AxA();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
+        }
+    }
+
+    public void bTimesB(View view) {
+        CreateB_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_BTIMESB)) {
+            if (dimension_good) {
+                Equal_BxB();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
         }
     }
 
@@ -445,6 +503,20 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         switch(type) {
             case CHECK_DIMENSION_AXB:
                 if( matrix_A_array[0].length == matrix_B_array.length ) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
+            case CHECK_DIMENSION_AXA:
+                if ( matrix_A_array[0].length == matrix_A_array.length ) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
+            case CHECK_DIMENSION_BTIMESB:
+                if (matrix_B_array[0].length == matrix_B_array.length) {
                     dimension_valid = true;
                 } else {
                     dimension_valid = false;
@@ -538,6 +610,20 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    private void Equal_BtimesA() {
+        int m = matrix_A_array.length;
+        int n = matrix_B_array[0].length;
+        int p = matrix_A_array[0].length;
+        C = new double[m][n];
+        for(int i = 0; i < m; i++) { // Keep iterating until the last row of A
+            for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
+                for(int k = 0; k < n; k++) { // Keep iterating until last column of A
+                    C[i][j] += matrix_A_array[k][i] * matrix_B_array[j][k]; // Keep sum
+                }
+            }
+        }
+    }
+
     private void Equal_AminusB() {
         int mA = matrix_A_array.length;
         int mB = matrix_B_array.length;
@@ -545,6 +631,17 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         for( int i = 0; i < mA; i++) {
             for( int j = 0; j< mB; j++) {
                 C[i][j] = matrix_A_array[i][j] - matrix_B_array[i][j];
+            }
+        }
+    }
+
+    private void Equal_BminusA() {
+        int mA = matrix_A_array.length;
+        int mB = matrix_B_array.length;
+        C = new double[mA][mB];
+        for( int i = 0; i < mA; i++) {
+            for( int j = 0; j< mB; j++) {
+                C[i][j] = matrix_A_array[j][i] - matrix_B_array[j][i];
             }
         }
     }
