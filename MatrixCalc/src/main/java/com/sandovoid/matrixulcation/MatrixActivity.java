@@ -320,8 +320,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             int i = getArguments().getInt(ARG_OPERATION_NUMBER);
-            String operation = getResources().getStringArray(R.array.operations_array)[i];
-
             View rootView = inflater.inflate(R.layout.activity_home, container, false);
 
             return rootView;
@@ -352,34 +350,29 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
-    //final Button swap = (Button) findViewById(R.id.swap);
-    //swap.setOnClickListener(new View.OnClickListener() {
-    //    public void onClick(View v) {
-    //        String Orig_A = matrix_A.getText().toString();
-    //        String Orig_B = matrix_B.getText().toString();
-    //        matrix_A.setText(Orig_B);
-    //        matrix_B.setText(Orig_A);
-    //    }
-    //});
+    public void aTimesB(View view) {
+        CreateA_Array();
+        CreateB_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
+            if (dimension_good) Equal_AxB();
+            if (dimension_good) SetResult();
+            if (dimension_good) ShowResultDialog();
+        } else {
+            ShowDimensionDialog();
+        }
+    }
 
-    //final Button equal = (Button) findViewById(R.id.equal);
-    //equal.setOnClickListener(new View.OnClickListener() {
-    //    public void onClick(View v){
-    //        String s = (String) spinner_operations.getSelectedItem();
-    //        if (s.equals("A x B")) {
-    //            CreateA_Array();
-    //            CreateB_Array();
-    //            if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
-    //                if (dimension_good) Equal_AxB();
-    //                if (dimension_good) SetResult();
-    //                if (dimension_good) ShowResultDialog();
-    //            } else {
-    //                ShowDimensionDialog();
-    //            }
-    //        }
-    //    }
-    //});
-
+    public void aMinusB(View view) {
+        CreateA_Array();
+        CreateB_Array();
+        if(DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
+            if(dimension_good) Equal_AminusB();
+            if(dimension_good) SetResult();
+            if(dimension_good) ShowResultDialog();
+        } else {
+            ShowDimensionDialog();
+        }
+    }
 
     private void setSpinnerContent(View view) {
         spinner_operations = (Spinner) view.findViewById(R.id.spinner_operations);
@@ -547,9 +540,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
 
     private void Equal_AminusB() {
         int mA = matrix_A_array.length;
-        int nA = matrix_A_array[0].length;
         int mB = matrix_B_array.length;
-        int nB = matrix_B_array[0].length;
         C = new double[mA][mB];
         for( int i = 0; i < mA; i++) {
             for( int j = 0; j< mB; j++) {
