@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import java.math.BigDecimal;
-import java.util.Set;
 
 import android.view.View;
 import android.widget.Toast;

@@ -48,6 +48,10 @@
     <string name="a_minus_b">A - B</string>
     <string name="b_minus_a">B - A</string>
     <string name="a_time_b">A x B</string>
+    <string name="home_welcome">Welcome!</string>
+    <string name="home_about">This is a very simple matrix calculator. It is meant to be quick,
+    simple and intuitive. This application in its entirety is completely free and licensed under
+    GPL v2. Enjoy!</string>
 
 
     <string-array name="operations_array">
