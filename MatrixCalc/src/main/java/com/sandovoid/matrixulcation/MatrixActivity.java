@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +23,10 @@ import android.content.ClipboardManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -50,6 +53,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public int i,j;
     public static String c_result = "", R_tmp;
     static EditText matrix_A, matrix_B;
+    static TextView welcome, description;
     Button equal;
     Button swap;
     Spinner spinner_operations;
@@ -337,6 +341,10 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                                  Bundle savedInstanceState) {
             int i = getArguments().getInt(ARG_OPERATION_NUMBER);
             View rootView = inflater.inflate(R.layout.activity_home, container, false);
+
+            welcome = (TextView) rootView.findViewById(R.id.welcome);
+            description = (TextView) rootView.findViewById(R.id.welcome_description);
+
 
             return rootView;
         }
