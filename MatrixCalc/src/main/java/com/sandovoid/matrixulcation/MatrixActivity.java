@@ -23,13 +23,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import java.math.BigDecimal;
-
 import android.view.View;
 import android.widget.Toast;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.widget.AdapterView.OnItemClickListener;
+import android.view.Gravity;
 
 public class MatrixActivity extends Activity implements OnItemClickListener {
 
@@ -93,22 +93,35 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 R.string.drawer_close
                 ) {
             public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-
         if (savedInstanceState == null) {
             selectItem(0);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDrawerLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        }, 500);
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         selectItem(position);
