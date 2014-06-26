@@ -131,103 +131,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         selectItem(position);
     }
 
-    class clicker implements Button.OnClickListener {
-        public void onClick(View v) {
-            if(v == equal) {
-                String s = (String) spinner_operations.getSelectedItem();
-                StartFunctions(s);
-            }
-
-            if(v == swap){
-                String Orig_A = matrix_A.getText().toString();
-                String Orig_B = matrix_B.getText().toString();
-                matrix_A.setText(Orig_B);
-                matrix_B.setText(Orig_A);
-            }
-        }
-
-        private void StartFunctions(String v){
-
-            if (v.equals("A x B")) {
-                CreateA_Array();
-                CreateB_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_AXB)){
-                    if(dimension_good) Equal_AxB();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-            if (v.equals("A + B")) {
-                CreateA_Array();
-                CreateB_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
-                    if(dimension_good) Equal_AplusB();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-
-            if (v.equals("A - B")) {
-                CreateA_Array();
-                CreateB_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
-                    if(dimension_good) Equal_AminusB();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-
-            if (v.equals("A x A")) {
-                CreateA_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_APLUSA)) {
-                    if(dimension_good) Equal_AxA();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-
-            if (v.equals("B x B")) {
-                CreateB_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_BPLUSB)) {
-                    if(dimension_good) Equal_BxB();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-            if (v.equals("Transpose A")) {
-                CreateA_Array();
-                if(DimensionalCheck(CHECK_DIMENSION_TRANSPOSEA)) {
-                    if(dimension_good) Transpose_A();
-                    if(dimension_good) SetResult();
-                    if(dimension_good) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-            if (v.equals("Transpose B")) {
-                CreateB_Array();
-                if( DimensionalCheck(CHECK_DIMENSION_TRANSPOSEB)) {
-                    if( dimension_good ) Transpose_B();
-                    if( dimension_good ) SetResult();
-                    if( dimension_good ) ShowResultDialog();
-                } else {
-                    ShowDimensionDialog();
-                }
-            }
-        }
-    }
-
-    // Creating our Spinner items
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -345,7 +248,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             welcome = (TextView) rootView.findViewById(R.id.welcome);
             description = (TextView) rootView.findViewById(R.id.welcome_description);
 
-
             return rootView;
         }
     }
@@ -452,17 +354,8 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
-    private void setSpinnerContent(View view) {
-        spinner_operations = (Spinner) view.findViewById(R.id.spinner_operations);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-
-        spinner_operations.setAdapter(adapter);
-    }
-
     // Create an initial 2-dimensional array in input box
-    private void CreateA_Array() {
+    public void CreateA_Array() {
         dimension_good = true;
 
         String S_matrix_A = matrix_A.getText().toString();
@@ -491,7 +384,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     }
 
     // Create an initial 2-dimensional array in our second input box
-    private void CreateB_Array() {
+    public void CreateB_Array() {
 
         String S_matrix_B = matrix_B.getText().toString();
 
@@ -720,7 +613,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     }
 
     // Converting calculated results to string
-    private void SetResult(){
+    public void SetResult(){
         c_result="";
         for( i = 0; i < C.length; i++ ) {
             for( j = 0; j < C[0].length; j++ ) {
