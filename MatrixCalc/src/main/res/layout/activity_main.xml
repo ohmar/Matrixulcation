@@ -17,7 +17,8 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="@color/bg">
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
@@ -28,13 +29,13 @@
          with the content view. -->
     <ListView
         android:id="@+id/left_drawer"
-        android:background="#FF656565"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="#FF000000"
-        android:dividerHeight="1px" >
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#829199" >
     </ListView>
 
 </android.support.v4.widget.DrawerLayout>
