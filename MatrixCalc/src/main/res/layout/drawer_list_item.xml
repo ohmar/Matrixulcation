@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:textColor="#fff"
+    android:textColor="@color/text"
     android:fontFamily="sans-serif-light"
     android:background="@drawable/list_drawer_select"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"/>

@@ -15,6 +15,7 @@
         android:text="@string/home_welcome"
         android:id="@+id/welcome"
         android:textSize="70sp"
+        android:textColor="@color/text"
         android:gravity="center"
         android:layout_gravity="center_horizontal|top" />
 
@@ -25,6 +26,7 @@
         android:id="@+id/welcome_description"
         android:fontFamily="sans-serif-condensed"
         android:textSize="20sp"
+        android:textColor="@color/text"
         android:layout_gravity="center" />
 
 </FrameLayout>

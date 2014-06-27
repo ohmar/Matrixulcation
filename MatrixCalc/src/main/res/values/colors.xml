@@ -3,4 +3,8 @@
     <color name="background">#ff337266</color>
     <color name="bg">#FFC8C8C8</color>
     <color name="text">#223E4C</color>
+    <color name="drawer_bg">#ff9bacb6</color>
+    <color name="text_black">#ff162733</color>
+    <color name="bg_selected">#ff979797</color>
+
 </resources>
