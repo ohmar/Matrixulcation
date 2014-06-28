@@ -54,10 +54,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public static String c_result = "", R_tmp;
     static EditText matrix_A, matrix_B;
     static TextView welcome, description;
-    Button equal;
-    Button swap;
-    Spinner spinner_operations;
-    private static final String[] array = {"A - B", "A + B", "A x B", "A x A", "B x B", "Transpose A", "Transpose B"};
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -66,7 +62,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mOperationTitles;
-    private String[] operations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
