@@ -48,6 +48,9 @@
     <string name="a_minus_b">A - B</string>
     <string name="b_minus_a">B - A</string>
     <string name="a_time_b">A x B</string>
+    <string name="transpose_a">Transpose A</string>
+    <string name="transpose_b">Transpose B</string>
+
     <string name="home_welcome">Welcome!</string>
     <string name="home_about">This is a very simple matrix calculator. It is meant to be quick,
     simple and intuitive. This application in its entirety is completely free and licensed under
@@ -57,19 +60,10 @@
     <string-array name="operations_array">
         <item>Home</item>
         <item>Binary Operations</item>
-        <item>Solve Operations</item>
+        <item>Decomposition Operations</item>
         <item>Test Operations</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
-    <string-array name="operations">
-        <item>0</item>
-        <item>5</item>
-        <item>10</item>
-        <item>100</item>
-        <item>1000</item>
-        <item>10000</item>
-    </string-array>
 
 </resources>

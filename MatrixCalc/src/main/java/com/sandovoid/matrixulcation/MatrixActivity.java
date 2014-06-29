@@ -349,6 +349,32 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    public void transposeA(View view) {
+        CreateA_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_TRANSPOSEA)) {
+            if (dimension_good) {
+                Transpose_A();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
+        }
+    }
+
+    public void transposeB(View view) {
+        CreateB_Array();
+        if (DimensionalCheck(CHECK_DIMENSION_TRANSPOSEB)) {
+            if (dimension_good) {
+                Transpose_B();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                ShowDimensionDialog();
+            }
+        }
+    }
+
     // Create an initial 2-dimensional array in input box
     public void CreateA_Array() {
         dimension_good = true;
@@ -742,5 +768,4 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         DialogFragment newFragment = new DialogInputError();
         newFragment.show(ft, "InputError");
     }
-
 }

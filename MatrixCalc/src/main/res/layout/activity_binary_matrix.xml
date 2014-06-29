@@ -130,6 +130,26 @@
         android:layout_above="@+id/a_minus_b_button"
         android:onClick="bTimesB" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transpose_a"
+        android:id="@+id/transpose_a_button"
+        android:layout_above="@+id/b_minus_a_button"
+        android:layout_toRightOf="@+id/a_minus_b_button"
+        android:layout_alignEnd="@+id/b_times_b_button"
+        android:onClick="transposeA" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transpose_b"
+        android:id="@+id/transpose_b_button"
+        android:layout_below="@+id/transpose_a_button"
+        android:layout_alignEnd="@+id/transpose_a_button"
+        android:layout_toRightOf="@+id/b_minus_a_button"
+        android:onClick="transposeB" />
+
     <!-- Button to get out calculation -->
 </RelativeLayout>
 </FrameLayout>
