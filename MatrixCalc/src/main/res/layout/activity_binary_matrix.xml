@@ -1,17 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:fitsSystemWindows="true" >
-
 <!-- Changed to RelativeLayout for better handling of screen sizes -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
+    android:background="@color/bg"
     android:fitsSystemWindows="true" >
 
     <!-- TextView for title of the first matrix -->
@@ -24,8 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/matrix_B"
-        android:layout_toLeftOf="@+id/matrix_b_textView" />
+        android:layout_alignEnd="@+id/matrix_A" />
 
 
     <!-- TextView for title of the second matrix -->
@@ -37,7 +27,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/matrix_A" />
+        android:layout_alignStart="@+id/matrix_B"
+        android:layout_alignParentEnd="true" />
 
 
     <!-- EditText for Matrix A -->
@@ -62,8 +53,7 @@
         android:gravity="top"
         android:textSize="15sp"
         android:layout_below="@+id/matrix_b_textView"
-        android:layout_toRightOf="@+id/matrix_A"
-        android:layout_alignParentStart="false">
+        android:layout_alignParentEnd="true">
 
         <requestFocus />
     </EditText>
@@ -136,9 +126,9 @@
         android:text="@string/transpose_a"
         android:id="@+id/transpose_a_button"
         android:layout_above="@+id/b_minus_a_button"
-        android:layout_toRightOf="@+id/a_minus_b_button"
         android:layout_alignEnd="@+id/b_times_b_button"
-        android:onClick="transposeA" />
+        android:onClick="transposeA"
+        android:layout_alignStart="@+id/b_times_b_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -147,9 +137,8 @@
         android:id="@+id/transpose_b_button"
         android:layout_below="@+id/transpose_a_button"
         android:layout_alignEnd="@+id/transpose_a_button"
-        android:layout_toRightOf="@+id/b_minus_a_button"
-        android:onClick="transposeB" />
+        android:onClick="transposeB"
+        android:layout_alignStart="@+id/transpose_a_button" />
 
     <!-- Button to get out calculation -->
 </RelativeLayout>
-</FrameLayout>
