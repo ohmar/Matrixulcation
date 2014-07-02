@@ -412,6 +412,13 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    public void croutonTest(View view) {
+        Crouton.showText(
+                this,
+                getString(R.string.crouton_message),
+                Style.ALERT);
+    }
+
     // Create an initial 2-dimensional array in input box
     public void CreateA_Array() {
         dimension_good = true;

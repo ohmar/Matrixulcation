@@ -50,6 +50,8 @@
     <string name="a_time_b">A x B</string>
     <string name="transpose_a">Transpose A</string>
     <string name="transpose_b">Transpose B</string>
+    <string name="test_button">Crouton Test</string>
+    <string name="crouton_message">o hey</string>
 
     <string name="home_welcome">Welcome!</string>
     <string name="home_about">This is a very simple matrix calculator. It is meant to be quick,
