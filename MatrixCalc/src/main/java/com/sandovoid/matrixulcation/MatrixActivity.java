@@ -33,6 +33,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.Gravity;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MatrixActivity extends Activity implements OnItemClickListener {
 
@@ -52,7 +54,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
 
     public int i,j;
     public static String c_result = "", R_tmp;
-    static EditText matrix_A, matrix_B;
+    static EditText matrix_A, matrix_B, d_matrix_A, d_matrix_B;
     static TextView welcome, description;
 
     private DrawerLayout mDrawerLayout;
@@ -200,6 +202,17 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
         if (position == 2) {
             // TODO: Implement "Solve" operation fragment
+            Fragment decompFragment = new DecompositionOperationsFragment();
+            Bundle args = new Bundle();
+            args.putInt(DecompositionOperationsFragment.ARG_OPERATION_NUMBER, position);
+            decompFragment.setArguments(args);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, decompFragment).commit();
+
+            mDrawerList.setItemChecked(position, true);
+            setTitle(mOperationTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
         }
         if (position == 3) {
             // TODO: Implement a few "test" operations
@@ -267,6 +280,30 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             matrix_A = (EditText) rootView.findViewById(R.id.matrix_A);
             matrix_B = (EditText) rootView.findViewById(R.id.matrix_B);
 
+            return rootView;
+        }
+    }
+
+    /**
+     * Fragment that appears for Decomposition Operations
+     */
+    public static class DecompositionOperationsFragment extends Fragment {
+        public static final String ARG_OPERATION_NUMBER = "operation_number";
+
+        public DecompositionOperationsFragment() {
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            int i = getArguments().getInt(ARG_OPERATION_NUMBER);
+            String operation = getResources().getStringArray(R.array.operations_array)[i];
+
+            View rootView = inflater.inflate(R.layout.activity_decomposition, container, false);
+
+            d_matrix_A = (EditText) rootView.findViewById(R.id.d_matrix_A);
+            d_matrix_B = (EditText) rootView.findViewById(R.id.d_matrix_B);
             return rootView;
         }
     }
@@ -430,7 +467,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 }
             }
         }
-
     }
 
     protected boolean DimensionalCheck(int type) {
@@ -744,6 +780,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment newFragment = new AboutDialogFragment();
         newFragment.show(ft, "About");
+
     }
 
     public static class DialogInputError extends DialogFragment {

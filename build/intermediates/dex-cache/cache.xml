@@ -2,6 +2,12 @@
 <pre-dex-items>
 
     <item
+        dex="/home/omar/Android/Matrixulcation/MatrixCalc/build/intermediates/pre-dexed/debug/crouton-1.8.4-b55b95d26a93ef5a64713823edc47adb7a4cba6c.jar"
+        jar="/home/omar/.gradle/caches/modules-2/files-2.1/de.keyboardsurfer.android.widget/crouton/1.8.4/c2544779f1579b0fd6e81590812fcdea034e6a69/crouton-1.8.4.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="c2544779f1579b0fd6e81590812fcdea034e6a69"/>
+    <item
         dex="/home/omar/Android/Matrixulcation/MatrixCalc/build/intermediates/pre-dexed/debug/support-v4-19.1.0-95a363f7fadad141ffe290eb5375030e031abdb4.jar"
         jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"

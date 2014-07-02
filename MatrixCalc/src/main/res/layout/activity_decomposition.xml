@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true" >
+
+    <!-- TextView for title of the first matrix -->
+    <TextView
+        android:id="@+id/d_matrix_a_textView"
+        android:text="@string/matrix_a"
+        android:textSize="20sp"
+        android:padding="10dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/d_matrix_A" />
+
+    <!-- TextView for title of the second matrix -->
+    <TextView
+        android:id="@+id/d_matrix_b_textView"
+        android:text="@string/matrix_b"
+        android:textSize="20sp"
+        android:padding="10dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/d_matrix_B"
+        android:layout_alignParentEnd="true" />
+
+
+    <!-- EditText for Matrix A -->
+    <EditText
+        android:id="@+id/d_matrix_A"
+        android:text="@string/default_values"
+        android:layout_width="175dp"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:layout_below="@+id/d_matrix_a_textView"
+        android:layout_alignParentStart="true" />
+
+    <!-- EditText for Matrix B -->
+    <EditText
+        android:id="@+id/d_matrix_B"
+        android:text="@string/default_values2"
+        android:layout_width="175dp"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:layout_alignTop="@+id/d_matrix_A"
+        android:layout_alignParentEnd="true">
+
+        <requestFocus />
+    </EditText>
+</RelativeLayout>
