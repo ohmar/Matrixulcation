@@ -307,6 +307,20 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             return rootView;
         }
     }
+    
+    public void aPlusB(View view) {
+        CreateA_Array();
+        CreateB_Array();
+        if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
+            if(dimension_good) {
+                Equal_AplusB();
+                SetResult();
+                ShowResultDialog();
+            } else {
+                Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
+            }
+        }
+    }
 
     public void aMinusB(View view) {
         CreateA_Array();
