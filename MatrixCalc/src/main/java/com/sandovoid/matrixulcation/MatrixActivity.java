@@ -41,14 +41,15 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public double[][] matrix_A_array, matrix_B_array, C;
 
     public static final int CHECK_DIMENSION_AXB = 1;
-    public static final int CHECK_DIMENSION_AXA = 2;
-    public static final int CHECK_DIMENSION_BTIMESB = 3;
-    public static final int CHECK_DIMENSION_APLUSB = 4;
-    public static final int CHECK_DIMENSION_APLUSA = 5;
-    public static final int CHECK_DIMENSION_BPLUSB = 6;
-    public static final int CHECK_DIMENSION_AMINUSB = 7;
-    public static final int CHECK_DIMENSION_TRANSPOSEA = 8;
-    public static final int CHECK_DIMENSION_TRANSPOSEB = 9;
+    public static final int CHECK_DIMENSION_BXA = 2;
+    public static final int CHECK_DIMENSION_AXA = 3;
+    public static final int CHECK_DIMENSION_BTIMESB = 4;
+    public static final int CHECK_DIMENSION_APLUSB = 5;
+    public static final int CHECK_DIMENSION_APLUSA = 6;
+    public static final int CHECK_DIMENSION_BPLUSB = 7;
+    public static final int CHECK_DIMENSION_AMINUSB = 8;
+    public static final int CHECK_DIMENSION_TRANSPOSEA = 9;
+    public static final int CHECK_DIMENSION_TRANSPOSEB = 10;
     public boolean dimension_valid;
     public boolean dimension_good=true;
 
@@ -307,7 +308,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             return rootView;
         }
     }
-    
+
     public void aPlusB(View view) {
         CreateA_Array();
         CreateB_Array();
@@ -363,14 +364,12 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public void bTimesA(View view) {
         CreateA_Array();
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
-            if (dimension_good) {
-                Equal_BtimesA();
-                SetResult();
-                ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        if (DimensionalCheck(CHECK_DIMENSION_BXA)) {
+            if(dimension_good) Equal_BtimesA();
+            if(dimension_good) SetResult();
+            if(dimension_good) ShowResultDialog();
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
@@ -493,14 +492,21 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     protected boolean DimensionalCheck(int type) {
         switch(type) {
             case CHECK_DIMENSION_AXB:
-                if( matrix_A_array[0].length == matrix_B_array.length ) {
+                if (matrix_A_array[0].length == matrix_B_array.length) {
+                    dimension_valid = true;
+                } else {
+                    dimension_valid = false;
+                }
+                break;
+            case CHECK_DIMENSION_BXA:
+                if (matrix_B_array[0].length == matrix_A_array.length) {
                     dimension_valid = true;
                 } else {
                     dimension_valid = false;
                 }
                 break;
             case CHECK_DIMENSION_AXA:
-                if ( matrix_A_array[0].length == matrix_A_array.length ) {
+                if (matrix_A_array[0].length == matrix_A_array.length) {
                     dimension_valid = true;
                 } else {
                     dimension_valid = false;
@@ -514,7 +520,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 }
                 break;
             case CHECK_DIMENSION_APLUSB:
-
                 // if A number of rows equals B number of rows AND
                 // number of A columns equals number of B columns
                 if( matrix_A_array.length == matrix_B_array.length &&
@@ -589,6 +594,21 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    private void Equal_BtimesA() {
+        int m = matrix_B_array.length;
+        int n = matrix_B_array[0].length;
+        int p = matrix_A_array[0].length;
+
+        C = new double[m][p];
+        for(int i = 0; i < m; i++) { // Keep iterating until the last row of A
+            for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
+                for(int k = 0; k < n; k++) { // Keep iterating until last column of A
+                    C[i][j] += matrix_A_array[k][i] * matrix_B_array[j][k]; // Keep sum
+                }
+            }
+        }
+    }
+
     // Compute A + B
     private void Equal_AplusB() {
         int m = matrix_A_array.length; // A rows
@@ -597,20 +617,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 C[i][j] = matrix_A_array[i][j]+matrix_B_array[i][j];
-            }
-        }
-    }
-
-    private void Equal_BtimesA() {
-        int m = matrix_A_array.length;
-        int n = matrix_B_array[0].length;
-        int p = matrix_A_array[0].length;
-        C = new double[m][n];
-        for(int i = 0; i < m; i++) { // Keep iterating until the last row of A
-            for(int j = 0; j < p; j++) { // Keep iterating until the last column of B
-                for(int k = 0; k < n; k++) { // Keep iterating until last column of A
-                    C[i][j] += matrix_A_array[k][i] * matrix_B_array[j][k]; // Keep sum
-                }
             }
         }
     }
