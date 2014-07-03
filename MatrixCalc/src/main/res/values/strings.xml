@@ -45,13 +45,16 @@
     <string name="b_times_a">B x A</string>
     <string name="a_time_a">A x A</string>
     <string name="b_time_b">B x B</string>
+    <string name="a_plus_b">A + B</string>
     <string name="a_minus_b">A - B</string>
     <string name="b_minus_a">B - A</string>
     <string name="a_time_b">A x B</string>
     <string name="transpose_a">Transpose A</string>
     <string name="transpose_b">Transpose B</string>
     <string name="test_button">Crouton Test</string>
+    <!-- Crouton message -->
     <string name="crouton_message">o hey</string>
+    <string name="crouton_incorrect_dimension">Invalid dimensions</string>
 
     <string name="home_welcome">Welcome!</string>
     <string name="home_about">This is a very simple matrix calculator. It is meant to be quick,

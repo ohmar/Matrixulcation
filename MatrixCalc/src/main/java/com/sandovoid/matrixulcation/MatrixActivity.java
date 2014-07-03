@@ -316,7 +316,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             if(dimension_good) SetResult();
             if(dimension_good) ShowResultDialog();
         } else {
-            ShowDimensionDialog();
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
@@ -719,6 +719,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                            dismiss();
                            Toast WhereToast = Toast.makeText(getApplicationContext(), R.string.toast_copied, Toast.LENGTH_SHORT);
                            WhereToast.show();
+
                        }
                     })
                    .setNegativeButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
