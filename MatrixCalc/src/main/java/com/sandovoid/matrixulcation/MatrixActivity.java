@@ -312,14 +312,14 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public void aPlusB(View view) {
         CreateA_Array();
         CreateB_Array();
-        if(DimensionalCheck(CHECK_DIMENSION_APLUSB)) {
-            if(dimension_good) {
+
+        if (matrix_A_array.length == matrix_B_array.length &&
+            matrix_A_array[0].length == matrix_B_array[0].length) {
                 Equal_AplusB();
                 SetResult();
                 ShowResultDialog();
-            } else {
-                Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
-            }
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
@@ -434,7 +434,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
 
     // Create an initial 2-dimensional array in input box
     public void CreateA_Array() {
-        dimension_good = true;
 
         String S_matrix_A = matrix_A.getText().toString();
 
@@ -454,7 +453,7 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 try {
                     matrix_A_array[i][j] = Double.valueOf(A_tmp[j]).doubleValue();
                 } catch(NumberFormatException nfe){
-                    dimension_good=false;
+                    dimension_good = false;
                     ShowInputErrorDialog();
                 }
             }
