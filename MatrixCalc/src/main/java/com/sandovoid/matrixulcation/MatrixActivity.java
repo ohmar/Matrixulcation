@@ -2,8 +2,6 @@ package com.sandovoid.matrixulcation;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +31,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.Gravity;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -40,17 +39,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
 
     public double[][] matrix_A_array, matrix_B_array, C;
 
-    public static final int CHECK_DIMENSION_AXB = 1;
-    public static final int CHECK_DIMENSION_BXA = 2;
-    public static final int CHECK_DIMENSION_AXA = 3;
-    public static final int CHECK_DIMENSION_BTIMESB = 4;
-    public static final int CHECK_DIMENSION_APLUSB = 5;
-    public static final int CHECK_DIMENSION_APLUSA = 6;
-    public static final int CHECK_DIMENSION_BPLUSB = 7;
-    public static final int CHECK_DIMENSION_AMINUSB = 8;
-    public static final int CHECK_DIMENSION_TRANSPOSEA = 9;
-    public static final int CHECK_DIMENSION_TRANSPOSEB = 10;
-    public boolean dimension_valid;
     public boolean dimension_good=true;
 
     public int i,j;
@@ -122,6 +110,12 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
             }
         }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.clearCroutonsForActivity(this);
+        super.onDestroy();
     }
 
     @Override
@@ -232,13 +226,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         mDrawerToggle.syncState();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggle
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
     /**
      * Fragment that appears is just a basic "home" view
      */
@@ -309,27 +296,43 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
         }
     }
 
+    /**
+     * Set up for "Incorrect Dimensions" Crouton
+     *
+     **/
+
     public void aPlusB(View view) {
         CreateA_Array();
         CreateB_Array();
 
         if (matrix_A_array.length == matrix_B_array.length &&
             matrix_A_array[0].length == matrix_B_array[0].length) {
-                Equal_AplusB();
-                SetResult();
-                ShowResultDialog();
+            if (dimension_good) Equal_AplusB();
+            if (dimension_good) SetResult();
+            if (dimension_good) ShowResultDialog();
+
         } else {
-            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
+
+            Configuration croutonConfiguration = new Configuration.Builder().setDuration(700).build();
+            Style croutonStyle = new Style.Builder()
+                    .setConfiguration(croutonConfiguration)
+                    .setBackgroundColorValue(getResources().getColor(R.color.crouton_color))
+                    .build();
+            String croutonText = getString(R.string.crouton_incorrect_dimension);
+
+            Crouton.showText(this, croutonText, croutonStyle);
+            // Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void aMinusB(View view) {
         CreateA_Array();
         CreateB_Array();
-        if(DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
-            if(dimension_good) Equal_AminusB();
-            if(dimension_good) SetResult();
-            if(dimension_good) ShowResultDialog();
+        if (matrix_A_array.length == matrix_B_array.length &&
+            matrix_A_array[0].length == matrix_B_array[0].length) {
+                Equal_AminusB();
+                SetResult();
+                ShowResultDialog();
         } else {
             Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
@@ -338,36 +341,35 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     public void bMinusA(View view) {
         CreateA_Array();
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_AMINUSB)) {
-            if (dimension_good) {
-                Equal_BminusA();
-                SetResult();
-                ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        if (matrix_B_array.length == matrix_A_array.length &&
+            matrix_B_array[0].length == matrix_A_array[0].length) {
+            Equal_BminusA();
+            SetResult();
+            ShowResultDialog();
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void aTimesB(View view) {
         CreateA_Array();
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_AXB)) {
-            if (dimension_good) Equal_AxB();
-            if (dimension_good) SetResult();
-            if (dimension_good) ShowResultDialog();
+        if (matrix_A_array[0].length == matrix_B_array.length) {
+            Equal_AxB();
+            SetResult();
+            ShowResultDialog();
         } else {
-            ShowDimensionDialog();
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void bTimesA(View view) {
         CreateA_Array();
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_BXA)) {
-            if(dimension_good) Equal_BtimesA();
-            if(dimension_good) SetResult();
-            if(dimension_good) ShowResultDialog();
+        if (matrix_B_array[0].length == matrix_A_array.length) {
+            Equal_BtimesA();
+            SetResult();
+            ShowResultDialog();
         } else {
             Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
@@ -375,61 +377,63 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
 
     public void aTimesA(View view) {
         CreateA_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_AXA)) {
-            if (dimension_good) {
-                Equal_AxA();
-                SetResult();
-                ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        if (matrix_A_array[0].length == matrix_A_array.length) {
+            Equal_AxA();
+            SetResult();
+            ShowResultDialog();
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void bTimesB(View view) {
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_BTIMESB)) {
-            if (dimension_good) {
-                Equal_BxB();
-                SetResult();
-                ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        if (matrix_B_array[0].length == matrix_B_array.length) {
+            Equal_BxB();
+            SetResult();
+            ShowResultDialog();
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void transposeA(View view) {
         CreateA_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_TRANSPOSEA)) {
-            if (dimension_good) {
-                Transpose_A();
-                SetResult();
-                ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        if (matrix_A_array.length < matrix_A_array[0].length ||
+            matrix_A_array.length > matrix_A_array[0].length ||
+            matrix_A_array.length == matrix_A_array[0].length) {
+            Transpose_A();
+            SetResult();
+            ShowResultDialog();
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void transposeB(View view) {
         CreateB_Array();
-        if (DimensionalCheck(CHECK_DIMENSION_TRANSPOSEB)) {
-            if (dimension_good) {
+        if (matrix_B_array.length < matrix_B_array[0].length ||
+            matrix_B_array.length > matrix_B_array[0].length ||
+            matrix_B_array.length == matrix_B_array[0].length) {
                 Transpose_B();
                 SetResult();
                 ShowResultDialog();
-            } else {
-                ShowDimensionDialog();
-            }
+        } else {
+            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
         }
     }
 
     public void croutonTest(View view) {
-        Crouton.showText(
-                this,
-                getString(R.string.crouton_message),
-                Style.ALERT);
+        Configuration croutonConfiguration = new Configuration.Builder().setDuration(700).build();
+        Style croutonStyle = new Style.Builder()
+                .setConfiguration(croutonConfiguration)
+                .setBackgroundColorValue(getResources().getColor(R.color.crouton_color))
+                .build();
+
+        String croutonText = getString(R.string.crouton_incorrect_dimension);
+
+        Crouton.showText(this, croutonText, croutonStyle);
+
     }
 
     // Create an initial 2-dimensional array in input box
@@ -486,95 +490,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 }
             }
         }
-    }
-
-    protected boolean DimensionalCheck(int type) {
-        switch(type) {
-            case CHECK_DIMENSION_AXB:
-                if (matrix_A_array[0].length == matrix_B_array.length) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_BXA:
-                if (matrix_B_array[0].length == matrix_A_array.length) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_AXA:
-                if (matrix_A_array[0].length == matrix_A_array.length) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_BTIMESB:
-                if (matrix_B_array[0].length == matrix_B_array.length) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_APLUSB:
-                // if A number of rows equals B number of rows AND
-                // number of A columns equals number of B columns
-                if( matrix_A_array.length == matrix_B_array.length &&
-                   matrix_A_array[0].length == matrix_B_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_AMINUSB:
-
-                // if A number of rows equals B number of rows AND
-                // number of A columns equals number of B columns
-                if( matrix_A_array.length == matrix_B_array.length &&
-                    matrix_A_array[0].length == matrix_B_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_APLUSA:
-
-                // if number of rows is equal to number of columns, dimensions valid
-                if( matrix_A_array.length == matrix_A_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_BPLUSB:
-                if( matrix_B_array.length == matrix_B_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_TRANSPOSEA:
-                if( matrix_A_array.length < matrix_A_array[0].length ||
-                    matrix_A_array.length > matrix_A_array[0].length ||
-                    matrix_A_array.length == matrix_A_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-            case CHECK_DIMENSION_TRANSPOSEB:
-                if( matrix_B_array.length < matrix_B_array[0].length ||
-                    matrix_B_array.length > matrix_B_array[0].length ||
-                    matrix_B_array.length == matrix_B_array[0].length ) {
-                    dimension_valid = true;
-                } else {
-                    dimension_valid = false;
-                }
-                break;
-        }
-        return dimension_valid;
     }
 
     // Compute A * B
