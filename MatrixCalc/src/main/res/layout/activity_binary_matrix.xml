@@ -53,7 +53,8 @@
         android:gravity="top"
         android:textSize="15sp"
         android:layout_above="@+id/a_times_b_button"
-        android:layout_toRightOf="@+id/matrix_A">
+        android:layout_toRightOf="@+id/matrix_A"
+        android:layout_alignParentEnd="true">
 
         <requestFocus />
     </EditText>
