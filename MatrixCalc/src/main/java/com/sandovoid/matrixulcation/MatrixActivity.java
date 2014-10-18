@@ -104,12 +104,6 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        mDrawerLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-        }, 500);
     }
 
     @Override
@@ -359,8 +353,13 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
             SetResult();
             ShowResultDialog();
         } else {
-            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
-        }
+            Configuration croutonConfiguration = new Configuration.Builder().setDuration(700).build();
+            Style croutonStyle = new Style.Builder()
+                    .setConfiguration(croutonConfiguration)
+                    .setBackgroundColorValue(getResources().getColor(R.color.crouton_color))
+                    .build();
+            String croutonText = getString(R.string.crouton_incorrect_dimension);
+            Crouton.showText(this, croutonText, croutonStyle);        }
     }
 
     public void bTimesA(View view) {
@@ -419,10 +418,15 @@ public class MatrixActivity extends Activity implements OnItemClickListener {
                 SetResult();
                 ShowResultDialog();
         } else {
-            Crouton.showText(this, getString(R.string.crouton_incorrect_dimension), Style.ALERT);
+            Configuration croutonConfiguration = new Configuration.Builder().setDuration(700).build();
+            Style croutonStyle = new Style.Builder()
+                    .setConfiguration(croutonConfiguration)
+                    .setBackgroundColorValue(getResources().getColor(R.color.crouton_color))
+                    .build();
+            String croutonText = getString(R.string.crouton_incorrect_dimension);
+            Crouton.showText(this, croutonText, croutonStyle);
         }
     }
-
     public void croutonTest(View view) {
         Configuration croutonConfiguration = new Configuration.Builder().setDuration(700).build();
         Style croutonStyle = new Style.Builder()
